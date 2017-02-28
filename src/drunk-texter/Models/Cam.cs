@@ -1,19 +1,20 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using drunk_texter.Models.CamHelper;
+using Newtonsoft.Json;
 using RestSharp;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace drunk_texter.Models
 {
-    public static class Weather
+    [JsonObject]
+    public class Cam
     {
-        // Get astronomy and weather conditions for city in state.
-        // Takes 2 strings, returns WeatherObservation Object
-        public static WeatherObservation GetForecast(string city, string state)
+        public static Models.CamHelper.CamResponse GetCam(string city, string state)
         {
             RestClient client = new RestClient("http://api.wunderground.com/api/");
-            RestRequest request = new RestRequest(EnvironmentVariables.WeatherAPIKey + "/astronomy/conditions/q/" + state + "/" + city + ".json", Method.GET);
+            RestRequest request = new RestRequest(EnvironmentVariables.WeatherAPIKey + "/webcams/q/" + state + "/" + city + ".json", Method.GET);
             RestResponse response = new RestResponse();
 
             Task.Run(async () =>
@@ -21,11 +22,10 @@ namespace drunk_texter.Models
                 response = await GetResponseContentAsync(client, request) as RestResponse;
             }).Wait();
 
-            WeatherObservation jsonResponse = JsonConvert.DeserializeObject<WeatherObservation>(response.Content);
+            Models.CamHelper.CamResponse jsonResponse = JsonConvert.DeserializeObject<Models.CamHelper.CamResponse>(response.Content);
             return jsonResponse;
         }
 
-        // Helper method for GetForecast
         public static Task<IRestResponse> GetResponseContentAsync(RestClient theClient, RestRequest theRequest)
         {
             TaskCompletionSource<IRestResponse> tcs = new TaskCompletionSource<IRestResponse>();
@@ -35,5 +35,7 @@ namespace drunk_texter.Models
             });
             return tcs.Task;
         }
+
+
     }
 }

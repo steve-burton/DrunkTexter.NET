@@ -1,6 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewBag.Title = "Cam Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h1>Result!</h1>
+<div class="cam-container">
+    @for (var i = 0; i <= 5; i++)
+    {
+        <div class="cam-image">
+            <img src="@Model.webcams[i].CURRENTIMAGEURL">
+            <h4>City: @Model.webcams[i].city, State: @Model.webcams[i].state</h4>
+            <a href="@Model.webcams[i].CAMURL">Click for live camera</a>
+        </div>
+    }
+    
+</div>
+<a href="@Model.webcams[0].CAMURL">Go to Cam</a>

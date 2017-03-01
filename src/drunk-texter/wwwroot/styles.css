@@ -4,3 +4,16 @@
 img.wu-logo {
     width: 200px;
 }
+
+div.cam-container {
+   display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+div.cam-image {
+    margin: 15px;
+}
+div.cam-image img {
+    width: 250px;
+}
